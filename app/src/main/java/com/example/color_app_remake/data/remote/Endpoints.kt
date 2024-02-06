@@ -6,4 +6,6 @@ object Endpoints {
 
     const val COLORS_ENDPOINT = "colors/new?format=json"
 
+    const val SEARCH_COLORS_ENDPOINT = "colors/new"
+
 }

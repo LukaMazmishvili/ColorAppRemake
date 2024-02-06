@@ -8,8 +8,12 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 
 
+fun ImageView.uploadImageByUrl(url: String) {
+    Glide.with(this).asDrawable().load(url).into(this)
+}
+
 fun uploadImage(url: String, view: View) {
-    Glide.with(view.context).load(url).into( object : CustomTarget<Drawable>() {
+    Glide.with(view.context).asDrawable().load(url).into(object : CustomTarget<Drawable>() {
         override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
             view.background = resource
         }
