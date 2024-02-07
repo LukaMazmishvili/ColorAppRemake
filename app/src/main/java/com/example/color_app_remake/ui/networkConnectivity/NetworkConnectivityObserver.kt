@@ -1,24 +1,19 @@
 package com.example.color_app_remake.ui.networkConnectivity
 
-import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class NetworkConnectivityObserver(
-    @ApplicationContext context: Context
+class NetworkConnectivityObserver @Inject constructor(
+    private val connectivityManager: ConnectivityManager
 ) : ConnectivityObserver {
-
-    private val connectivityManager =
-        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     override fun observe(): Flow<ConnectivityObserver.Status> {
 
@@ -30,7 +25,6 @@ class NetworkConnectivityObserver(
                         isConnectedToWifi().collect {
                             if (it) send(ConnectivityObserver.Status.Available)
                         }
-
                     }
                 }
 

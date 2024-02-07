@@ -4,8 +4,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import com.example.color_app_remake.data.remote.Endpoints.BASE_URL
 import com.example.color_app_remake.ui.networkConnectivity.ConnectivityObserver
-import com.example.color_app_remake.ui.networkConnectivity.NetworkConnectivity
-import com.example.color_app_remake.ui.networkConnectivity.NetworkConnectivityImpl
 import com.example.color_app_remake.ui.networkConnectivity.NetworkConnectivityObserver
 import dagger.Module
 import dagger.Provides
@@ -33,9 +31,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideNetworkConnectivityObserver(
-        @ApplicationContext context: Context
+        connectivityManager: ConnectivityManager
     ): ConnectivityObserver {
-        return NetworkConnectivityObserver(context)
+        return NetworkConnectivityObserver(connectivityManager)
     }
 
     @Provides
@@ -46,11 +44,4 @@ object AppModule {
         return context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
 
-    @Provides
-    @Singleton
-    fun provideNetworkConnectivity(
-        connectivityManager: ConnectivityManager
-    ): NetworkConnectivity {
-        return NetworkConnectivityImpl(connectivityManager)
-    }
 }

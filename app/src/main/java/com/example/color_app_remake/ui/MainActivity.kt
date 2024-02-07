@@ -30,8 +30,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private var networkStatus = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -69,8 +67,6 @@ class MainActivity : AppCompatActivity() {
     private fun networkObserver() {
         lifecycleScope.launch {
             networkConnectivityObserver.observe().collect { networkStatus ->
-
-                Log.d("NetworkInActivity", "networkObserver: $networkStatus")
                 when (networkStatus) {
                     ConnectivityObserver.Status.Lost, ConnectivityObserver.Status.Unavailable -> {
                         viewModel.setNetworkStatus(false)
