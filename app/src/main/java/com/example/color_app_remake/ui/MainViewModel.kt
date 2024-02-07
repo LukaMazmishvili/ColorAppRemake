@@ -33,7 +33,7 @@ class MainViewModel @Inject constructor(
             // Collect Connection Status
             networkStatus.collect { connectionStatus ->
                 when (connectionStatus) {
-                    true, null -> getColorsUseCase.invoke().collect { response ->
+                    true -> getColorsUseCase.invoke().collect { response ->
                         when (response) {
                             is Resource.Success -> {
                                 _dataState.value = response.data!!
@@ -49,7 +49,7 @@ class MainViewModel @Inject constructor(
                         }
                     }
 
-                    false -> {
+                    false, null -> {
                         setErrorMsg("No Network Connection !")
                     }
                 }
@@ -67,7 +67,7 @@ class MainViewModel @Inject constructor(
             networkStatus.collect { connectionStatus ->
 //            networkConnectivity.isConnectedToWifi().collect { connectedToWifi ->
                 when (connectionStatus) {
-                    true, null -> getColorsUseCase.invoke(keyword).collect { response ->
+                    true -> getColorsUseCase.invoke(keyword).collect { response ->
                         when (response) {
                             is Resource.Success -> {
                                 _dataState.value =
@@ -88,7 +88,7 @@ class MainViewModel @Inject constructor(
                         }
                     }
 
-                    false -> setErrorMsg("No Network Connection !")
+                    false, null -> setErrorMsg("No Network Connection !")
                 }
             }
         }

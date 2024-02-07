@@ -67,7 +67,6 @@ class NetworkConnectivityObserver(
             emit(networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI))
         }
 
-        emit(false)
     }
 
 }
