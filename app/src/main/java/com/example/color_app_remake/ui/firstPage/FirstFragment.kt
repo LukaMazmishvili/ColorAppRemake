@@ -1,23 +1,20 @@
 package com.example.color_app_remake.ui.firstPage
 
-import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.View
 import android.widget.SearchView
-import androidx.fragment.app.viewModels
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.color_app_remake.common.base.BaseFragment
 import com.example.color_app_remake.databinding.FragmentFirstBinding
-import com.example.color_app_remake.domain.repository.ColorsRepository
+import com.example.color_app_remake.ui.MainViewModel
 import com.example.color_app_remake.ui.firstPage.adapter.ColorsAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -25,7 +22,7 @@ class FirstFragment() : BaseFragment<FragmentFirstBinding>(
     FragmentFirstBinding::inflate
 ) {
 
-    private val viewModel: FirstFragmentVM by viewModels()
+    private val viewModel: MainViewModel by activityViewModels()
 
     private val adapter: ColorsAdapter by lazy {
         ColorsAdapter()
@@ -39,12 +36,6 @@ class FirstFragment() : BaseFragment<FragmentFirstBinding>(
     override fun started() {
         setupViews()
         searchColors()
-    }
-
-    fun test(list: List<com.example.color_app_remake.domain.model.Color>) {
-
-        val testMap = mutableMapOf<String, com.example.color_app_remake.domain.model.Color>()
-        list
     }
 
     override fun listeners() {
@@ -66,9 +57,6 @@ class FirstFragment() : BaseFragment<FragmentFirstBinding>(
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.dataState.collect { data ->
                     adapter.submitList(data)
-
-                    test(data)
-                    Log.d("dataInFragment", "observer: $data")
                 }
             }
         }
@@ -83,8 +71,10 @@ class FirstFragment() : BaseFragment<FragmentFirstBinding>(
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.errorMsg.collect {
-                    Log.d("error", "observer: ${it}")
+                viewModel.errorMsg.collect { errorMessage ->
+                    if (viewModel.networkStatus.value != true && errorMessage.isNotEmpty()) {
+                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
