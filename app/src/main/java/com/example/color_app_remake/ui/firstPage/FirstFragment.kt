@@ -88,6 +88,7 @@ class FirstFragment() : BaseFragment<FragmentFirstBinding>(
     }
 
     private fun searchColors() {
+        // todo search for debounce და გადააკეთე დებაუნსზე
         binding.sbColorSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
 

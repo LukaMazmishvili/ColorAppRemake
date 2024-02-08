@@ -32,6 +32,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // todo რათ გინდა proguardFiles ?
         }
     }
     compileOptions {

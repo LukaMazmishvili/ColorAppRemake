@@ -5,6 +5,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!--
+    todo რას შვება ეს ხაზები?
+     android:allowBackup="true"
+       android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+    -->
     <application
         android:name=".ColorApp"
         android:allowBackup="true"

@@ -63,6 +63,7 @@ class MainViewModel @Inject constructor(
                     true -> getColorsUseCase.invoke(keyword).collect { response ->
                         when (response) {
                             is Resource.Success -> {
+                                // todo აქ რა გიწერია ამიხსენი მერე :დ
                                 _dataState.value =
                                     if (keyword.length > 2) {
                                         response.data!!.filterAuthorColors()

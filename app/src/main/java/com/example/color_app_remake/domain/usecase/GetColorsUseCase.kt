@@ -10,6 +10,7 @@ import javax.inject.Inject
 class GetColorsUseCase @Inject constructor(
     private val repository: ColorsRepository
 ) {
+    // todo გჭირდება აქ ორი მეთოდი ნაღდად?
 
     suspend operator fun invoke(): Flow<Resource<List<Color>>> = repository.fetchColors()
 
