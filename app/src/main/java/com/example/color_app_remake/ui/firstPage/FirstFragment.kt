@@ -98,7 +98,8 @@ class FirstFragment() : BaseFragment<FragmentFirstBinding>(
                 searchRunnable?.let { searchHandler.removeCallbacks(it) }
 
                 searchRunnable = Runnable {
-                    viewModel.searchColors(newText.toString())
+                    if (!newText.isNullOrEmpty())
+                        viewModel.searchColors(newText.toString())
                 }
                 searchRunnable?.let { searchHandler.postDelayed(it, searchDelayMillis.toLong()) }
 

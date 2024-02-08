@@ -45,9 +45,12 @@ class MainViewModel @Inject constructor(
                         }
                     }
 
-                    false, null -> {
+                    false -> {
                         setErrorMsg("No Network Connection !")
                     }
+
+
+                    null -> {}
                 }
             }
         }
@@ -79,6 +82,7 @@ class MainViewModel @Inject constructor(
                     }
 
                     false, null -> setErrorMsg("No Network Connection !")
+
                 }
             }
         }
