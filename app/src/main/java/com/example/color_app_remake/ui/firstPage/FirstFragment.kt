@@ -15,8 +15,16 @@ import com.example.color_app_remake.databinding.FragmentFirstBinding
 import com.example.color_app_remake.ui.MainViewModel
 import com.example.color_app_remake.ui.firstPage.adapter.ColorsAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
+@OptIn(FlowPreview::class)
 @AndroidEntryPoint
 class FirstFragment() : BaseFragment<FragmentFirstBinding>(
     FragmentFirstBinding::inflate
@@ -91,17 +99,12 @@ class FirstFragment() : BaseFragment<FragmentFirstBinding>(
         // todo search for debounce და გადააკეთე დებაუნსზე
         binding.sbColorSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                searchRunnable?.let { searchHandler.removeCallbacks(it) }
 
-                searchRunnable = Runnable {
-                    viewModel.searchColors(newText.toString())
-                }
-                searchRunnable?.let { searchHandler.postDelayed(it, searchDelayMillis.toLong()) }
+                viewModel.setSearchText(newText)
 
                 return true
             }
