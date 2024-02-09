@@ -2,7 +2,6 @@ package com.example.color_app_remake.ui.firstPage
 
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
@@ -16,12 +15,6 @@ import com.example.color_app_remake.ui.MainViewModel
 import com.example.color_app_remake.ui.firstPage.adapter.ColorsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
@@ -36,14 +29,9 @@ class FirstFragment() : BaseFragment<FragmentFirstBinding>(
         ColorsAdapter()
     }
 
-
-    private val searchHandler = Handler(Looper.getMainLooper())
-    private var searchRunnable: Runnable? = null
-    private val searchDelayMillis = 400
-
     override fun started() {
-        setupViews()
         searchColors()
+        setupViews()
     }
 
     override fun listeners() {
@@ -56,7 +44,7 @@ class FirstFragment() : BaseFragment<FragmentFirstBinding>(
         }
 
         binding.root.setOnRefreshListener {
-            observer()
+            viewModel.getColors()
         }
     }
 
@@ -88,7 +76,7 @@ class FirstFragment() : BaseFragment<FragmentFirstBinding>(
         }
     }
 
-    private fun setupViews(isLoading: Boolean = true) {
+    private fun setupViews(isLoading: Boolean = false) {
         with(binding) {
             rvColorCards.adapter = adapter
             root.isRefreshing = isLoading
@@ -104,7 +92,13 @@ class FirstFragment() : BaseFragment<FragmentFirstBinding>(
 
             override fun onQueryTextChange(newText: String?): Boolean {
 
-                viewModel.setSearchText(newText)
+                val searchText = newText ?: ""
+
+                if (searchText.length > 2 || searchText.isEmpty()) {
+                    viewModel.searchJob?.cancel()
+                    viewModel.setSearchText(newText)
+                    viewModel.getColors()
+                }
 
                 return true
             }

@@ -5,7 +5,10 @@ import com.example.color_app_remake.domain.model.Color
 import com.example.color_app_remake.domain.repository.ColorsRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flattenConcat
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -17,17 +20,6 @@ class GetColorsUseCase @Inject constructor(
 
     // todo გჭირდება აქ ორი მეთოდი ნაღდად?
 
-    suspend operator fun invoke(keyword: String = ""): Flow<Resource<List<Color>>> = flow {
-
-        if (keyword.isEmpty()) {
-            emit(repository.fetchColors())
-        } else {
-            emit(repository.searchColors(keyword))
-        }
-
-    }.flatMapConcat {
-        it
-    }
-
-//    suspend operator fun invoke(keyword: String) = repository.searchColors(keyword)
+    suspend operator fun invoke(keyword: String = ""): Flow<Resource<List<Color>>> =
+        repository.fetchColors(keyword)
 }

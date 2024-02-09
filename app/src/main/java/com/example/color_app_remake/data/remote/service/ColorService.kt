@@ -9,8 +9,11 @@ import retrofit2.http.Query
 
 interface ColorService {
 
-    @GET(COLORS_ENDPOINT)
-    suspend fun fetchData(): Response<List<ColorDto>>
+    @GET(SEARCH_COLORS_ENDPOINT)
+    suspend fun fetchData(
+        @Query("keywords") keywords: String,
+        @Query("format") format: String = "json"
+    ): Response<List<ColorDto>>
 
     @GET(SEARCH_COLORS_ENDPOINT)
     suspend fun searchItem(

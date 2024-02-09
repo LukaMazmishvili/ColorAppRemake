@@ -6,8 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface ColorsRepository {
 
-    suspend fun fetchColors(): Flow<Resource<List<Color>>>
-
-    suspend fun searchColors(keyword: String): Flow<Resource<List<Color>>>
+    suspend fun fetchColors(keyword: String): Flow<Resource<List<Color>>>
 
 }

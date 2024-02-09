@@ -12,28 +12,12 @@ import javax.inject.Inject
 class ColorsRepositoryImpl @Inject constructor(
     private val colorService: ColorService
 ) : ColorsRepository {
-    override suspend fun fetchColors(): Flow<Resource<List<Color>>> = flow {
+
+    override suspend fun fetchColors(keyword: String): Flow<Resource<List<Color>>> = flow {
         try {
             emit(Resource.Loading(true))
 
-            val response = colorService.fetchData()
-
-            if (response.isSuccessful) {
-                val data = response.body()
-                emit(Resource.Success(data?.map { it.toColor() }))
-            } else {
-                emit(Resource.Error("Something Went Wrong !"))
-            }
-        } catch (e: Exception) {
-            emit(Resource.Error(e.message.toString()))
-        }
-    }
-
-    override suspend fun searchColors(keyword: String): Flow<Resource<List<Color>>> = flow {
-        try {
-            emit(Resource.Loading(true))
-
-            val response = colorService.searchItem(keyword)
+            val response = colorService.fetchData(keyword)
 
             if (response.isSuccessful) {
                 val data = response.body()
