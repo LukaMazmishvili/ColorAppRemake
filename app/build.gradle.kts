@@ -33,6 +33,7 @@ android {
                 "proguard-rules.pro"
             )
             // todo რათ გინდა proguardFiles ?
+            // for shrinking, optimizing and security purposes 
         }
     }
     compileOptions {

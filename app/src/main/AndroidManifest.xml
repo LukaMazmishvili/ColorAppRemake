@@ -7,9 +7,11 @@
 
     <!--
     todo რას შვება ეს ხაზები?
-     android:allowBackup="true"
-       android:dataExtractionRules="@xml/data_extraction_rules"
+     android:allowBackup="true" // ვუთითებთ გვინდა თუ არა რომ დაბექაფდეს თუ არა ფაილები
+       android:dataExtractionRules="@xml/data_extraction_rules" // აქ ვუთითებთ xml ფაილს შეგვიძლია აღვწეროთ რომელი ფაილები უნდა ან არ უნდა დაბექაფდეს.
         android:fullBackupContent="@xml/backup_rules"
+
+
     -->
     <application
         android:name=".ColorApp"
